@@ -1,36 +1,29 @@
 # SentinelAI: Smart Surveillance System
 
-![Status](https://img.shields.io/badge/status-week%201%20complete-brightgreen)
+![Status](https://img.shields.io/badge/status-active-brightgreen)
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue)
-![Progress](https://img.shields.io/badge/progress-20%25-yellow)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-**An end-to-end AI-powered video surveillance system with person detection, multi-object tracking, and action recognition.**
+**An end-to-end AI-powered video surveillance system with real-time person detection, multi-object tracking, and intelligent action recognition.**
 
-🎉 **Week 1 Complete!** FastAPI backend with job queue, database, and async processing is live!
+## What is SentinelAI?
 
-## Features
+SentinelAI is a comprehensive surveillance platform that combines computer vision and artificial intelligence to provide intelligent video monitoring. It features real-time camera streaming, person detection and tracking, voice-activated controls, and automated event detection including falls and fights. The system processes video feeds to identify and track individuals, recognize behavioral patterns, and generate alerts for suspicious activities.
 
-**Core CV Pipeline (Day 1-2)** ✅
-- ✅ Person detection (YOLOv8n)
-- ✅ Multi-object tracking (ByteTrack)
-- ✅ Action recognition (standing, walking, running, loitering)
-- ✅ Event logging & filtering
-- ✅ Annotated video output
+Built with a modern tech stack including FastAPI for the backend and React for the frontend, SentinelAI offers both live camera monitoring and batch video processing capabilities. The platform includes features like gesture recognition, heatmap generation, face recognition, and natural language querying through voice commands.
 
-**Backend API (Week 1)** ✅
-- ✅ FastAPI REST API with 7 endpoints
-- ✅ Video upload with validation
-- ✅ Background job queue & async processing
-- ✅ SQLite database with job management
-- ✅ Real-time progress tracking (0-100%)
-- ✅ Auto-generated API docs (Swagger UI)
+## Key Features
 
-**Coming Soon**
-- 🚧 React dashboard (Week 2)
-- 🚧 Fall & fight detection (Week 3)
-- 🚧 ML-based action classification with X3D (Week 4+)
-- 🚧 Real-time alerts & webhooks (Week 3)
+- **Real-time Camera Surveillance**: Live streaming from multiple cameras with WebSocket-based frame delivery
+- **Person Detection & Tracking**: YOLOv8-powered detection with ByteTrack multi-object tracking
+- **Action Recognition**: Automatic detection of standing, walking, running, and loitering behaviors
+- **Fall & Fight Detection**: Advanced detection of emergency situations
+- **Voice Control**: "Hey Sentinel" wake word activation with natural language queries
+- **Face Recognition**: Identify and track known individuals
+- **Gesture Learning**: Teach and recognize custom gestures
+- **Heatmap Analytics**: Visualize movement patterns and high-traffic areas
+- **Alert System**: Real-time notifications for detected events
+- **Video Processing**: Upload and analyze recorded video files
 
 ## Architecture
 
@@ -38,17 +31,17 @@
 ┌─────────────────────────────────────────────────────────────────┐
 │                         FRONTEND (React)                         │
 │  ┌──────────────┐  ┌──────────────┐  ┌────────────────────┐   │
-│  │ Upload Page  │  │ Jobs Monitor │  │ Analytics Dashboard│   │
+│  │ Live Camera  │  │ Upload Page  │  │ Analytics Dashboard│   │
 │  └──────────────┘  └──────────────┘  └────────────────────┘   │
 └────────────────────────────┬────────────────────────────────────┘
-                             │ REST API
+                             │ REST API + WebSocket
 ┌────────────────────────────┼────────────────────────────────────┐
 │                    BACKEND (FastAPI)                             │
 │  ┌──────────────────────────────────────────────────────────┐  │
 │  │              Processing Pipeline (Async)                  │  │
 │  │  ┌─────────┐   ┌─────────┐   ┌──────────┐   ┌─────────┐ │  │
-│  │  │ Video   │──▶│Detector │──▶│ Tracker  │──▶│ Action  │ │  │
-│  │  │ Loader  │   │(YOLOv8) │   │(ByteTrack)│  │ Engine  │ │  │
+│  │  │ Camera  │──▶│Detector │──▶│ Tracker  │──▶│ Action  │ │  │
+│  │  │ Stream  │   │(YOLOv8) │   │(ByteTrack)│  │ Engine  │ │  │
 │  │  └─────────┘   └─────────┘   └──────────┘   └─────────┘ │  │
 │  └──────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────┘
@@ -59,11 +52,11 @@
 ### Prerequisites
 
 - Python 3.9+
+- Node.js 16+
+- PostgreSQL (optional, SQLite by default)
 - (Optional) NVIDIA GPU with CUDA 11.8+ for faster processing
 
-### First-Time Setup
-
-**⚠️ IMPORTANT**: Install dependencies before running!
+### Installation
 
 **1. Backend Dependencies**
 ```bash
@@ -77,7 +70,14 @@ cd frontend
 npm install
 ```
 
-**3. Start Application**
+**3. Environment Setup**
+```bash
+# Copy and configure environment variables
+cp .env.example .env
+# Edit .env with your settings (database, API keys, etc.)
+```
+
+**4. Start Application**
 ```bash
 # Option A: One command (Windows)
 start.bat
@@ -87,76 +87,47 @@ python start_api.py          # Terminal 1
 cd frontend && npm run dev   # Terminal 2
 ```
 
-**4. Open Browser**
+**5. Open Browser**
 ```
 http://localhost:5173
 ```
 
-📖 **Detailed Guide**: See [GETTING_STARTED.md](GETTING_STARTED.md) for complete usage instructions
+## Usage
 
----
+### Live Camera Monitoring
+1. Navigate to the Dashboard
+2. View real-time camera feeds with person detection
+3. Use voice commands: "Hey Sentinel, show me recent alerts"
 
-## 🎯 How to Use
+### Video Upload
+1. Click "Upload Video"
+2. Drag and drop video file (MP4, AVI, MOV)
+3. Monitor processing progress
+4. View results with annotations and event timeline
 
-### Quick Start (Windows)
-```bash
-# One command to start everything
-start.bat
-```
-Then open http://localhost:5173
-
-### Manual Start
-**Terminal 1** - Backend:
-```bash
-python start_api.py
-```
-
-**Terminal 2** - Frontend:
-```bash
-cd frontend
-npm run dev
-```
-
-### Using the Application
-
-1. **Upload a Video**
-   - Go to http://localhost:5173
-   - Click "Upload" → drag & drop video (MP4, AVI, MOV)
-   - Max 100 MB
-
-2. **Monitor Processing**
-   - Automatically redirected to Results page
-   - Progress bar shows 0-100%
-   - Status updates every 2 seconds
-
-3. **View Results**
-   - Watch annotated video with bounding boxes
-   - See action timeline (standing, walking, running, loitering)
-   - Download processed video and events JSON
-
-### Complete Guide
-See [GETTING_STARTED.md](GETTING_STARTED.md) for:
-- Detailed setup instructions
-- Troubleshooting guide
-- Sample video recommendations
-- API usage examples
-
----
+### Gesture Teaching
+1. Go to "Gesture Teacher"
+2. Record new gesture samples
+3. Train the system to recognize custom gestures
 
 ## Project Structure
 
 ```
 sentinelai/
 ├── backend/              # FastAPI backend
-│   ├── api/             # REST endpoints
+│   ├── api/             # REST endpoints & WebSocket
 │   ├── core/            # Processing pipeline
-│   ├── models/          # ML model weights
+│   ├── auth/            # Authentication & security
+│   ├── llm/             # LLM integration for queries
 │   ├── storage/         # Database & file management
 │   └── workers/         # Background job processors
 ├── frontend/            # React frontend
-├── data/                # Video storage
-├── tests/               # Unit & integration tests
-└── notebooks/           # Evaluation & training
+│   ├── src/
+│   │   ├── components/  # Reusable UI components
+│   │   ├── pages/       # Page views
+│   │   └── services/    # API client
+├── data/                # Video storage & outputs
+└── docs/                # Documentation
 ```
 
 ## Performance
@@ -167,8 +138,6 @@ sentinelai/
 | GPU (T4) | 45-60 | 20ms/frame |
 | GPU (RTX 4090) | 120+ | 8ms/frame |
 
-See [PERFORMANCE.md](PERFORMANCE.md) for detailed benchmarks.
-
 ## API Documentation
 
 **Interactive Docs**:
@@ -176,51 +145,23 @@ See [PERFORMANCE.md](PERFORMANCE.md) for detailed benchmarks.
 - ReDoc: http://localhost:8000/api/redoc
 - Health Check: http://localhost:8000/health
 
-**Detailed Documentation**:
-- [API.md](API.md) - Complete API reference with examples
-- [WEEK1_QUICKSTART.md](WEEK1_QUICKSTART.md) - Quick start guide
-- [TIMELINE.md](TIMELINE.md) - Development timeline and roadmap
-
-## Development Roadmap
-
-**Progress: 20% Complete (2 of 10 weeks)**
-
-```
-Timeline:
-Foundation  ████████████ 100% ✅ (Day 1-2)
-Backend API ████████████ 100% ✅ (Week 1)
-Frontend    ░░░░░░░░░░░░   0% 🚧 (Week 2)
-Advanced    ░░░░░░░░░░░░   0% 🔲 (Week 3)
-ML Actions  ░░░░░░░░░░░░   0% 🔲 (Week 4+)
-```
-
-**Completed**:
-- [x] Day 1-2: Foundation & CV pipeline
-- [x] Week 1: FastAPI backend + job queue
-
-**Next Up**:
-- [ ] Week 2: React frontend dashboard
-- [ ] Week 3: Fall & fight detection + alerts
-- [ ] Week 4+: X3D ML-based action model
-
-📅 **Full Timeline**: See [TIMELINE.md](TIMELINE.md) for detailed roadmap
-
 ## Tech Stack
 
 **Backend**:
 - FastAPI, PyTorch, Ultralytics (YOLOv8)
 - BoxMOT (ByteTrack), OpenCV
-- SQLite, Pydantic
+- PostgreSQL/SQLite, SQLAlchemy
+- Anthropic Claude API
 
 **Frontend**:
-- React 18, Vite
-- Axios, TailwindCSS
-- Recharts (analytics)
+- React 18, TypeScript, Vite
+- TailwindCSS
+- WebSocket for real-time streaming
 
 **Models**:
 - YOLOv8n (person detection)
 - ByteTrack (multi-object tracking)
-- X3D-M (future: action classification)
+- MediaPipe (pose estimation)
 
 ## Contributing
 
@@ -230,12 +171,6 @@ This is a portfolio project, but suggestions are welcome! Open an issue or PR.
 
 MIT License - see [LICENSE](LICENSE) for details.
 
-## Acknowledgments
-
-- Ultralytics for YOLOv8
-- BoxMOT for tracking implementations
-- FastAPI for the excellent framework
-
 ---
 
-**Built with ❤️ for computer vision and AI**
+**Built for intelligent video surveillance and security**
